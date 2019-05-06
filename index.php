@@ -82,7 +82,12 @@
         }
         
     ?>
-        <div class="container">
+        <div>
+            <div class="row">
+                <div class="container">
+                    <h1>CRUD de Empresas</h1>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm">
                     <div class="card">
@@ -160,7 +165,7 @@
                                         <option>Tarjeta Debito</option>
                                     </select>
                                     <br>
-                                    <label>Empresa</label>
+                                    <label>NIT Empresa</label>
                                     <select class="fomr-control" id="empresaSelect" name="empres">
                                     <?php
                                         $sql = "SELECT nit_empresa FROM empresas";
@@ -213,6 +218,52 @@
                                             echo "<td>".$empresas['telefono_empresa']."</td>\n";
                                             echo "<td>".$empresas['direccion_empresa']."</td>\n";
                                             echo "<td>".$empresas['ubicacion_empresa']."</td>\n";
+                                            echo "</tr>\n";
+                                        }
+                                        $result->free();
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Clientes
+                        </div>
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Identificacion</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Direccion</th>
+                                    <th scope="col">Pais</th>
+                                    <th scope="col">Idioma</th>
+                                    <th scope="col">Moneda</th>
+                                    <th scope="col">Metodo de Pago</th>
+                                    <th scope="col">NIT Empresa</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $sql = "SELECT nombre_cliente, apellido_cliente, identificacion_cliente, telefono_cliente, direccion_cliente, pais_cliente, idioma_cliente, moneda_cliente, forma_pago_cliente, empresa_id FROM clientes";
+                                        if (!$result = $conn->query($sql)) {
+                                            echo "Error al consultar base de datos.";
+                                            echo "Error: " . $conn->error . "\n";
+                                        }
+
+                                        while($clientes = $result->fetch_assoc()) {
+                                            echo "<tr>\n";
+                                            echo "<td>".$clientes['nombre_cliente']."</td>\n";
+                                            echo "<td>".$clientes['apellido_cliente']."</td>\n";
+                                            echo "<td>".$clientes['identificacion_cliente']."</td>\n";
+                                            echo "<td>".$clientes['telefono_cliente']."</td>\n";
+                                            echo "<td>".$clientes['direccion_cliente']."</td>\n";
+                                            echo "<td>".$clientes['pais_cliente']."</td>\n";
+                                            echo "<td>".$clientes['idioma_cliente']."</td>\n";
+                                            echo "<td>".$clientes['moneda_cliente']."</td>\n";
+                                            echo "<td>".$clientes['forma_pago_cliente']."</td>\n";
+                                            echo "<td>".$clientes['empresa_id']."</td>\n";
                                             echo "</tr>\n";
                                         }
                                         $result->free();
