@@ -69,8 +69,8 @@
             idioma_cliente CHAR(100) NOT NULL,
             moneda_cliente CHAR(100) NOT NULL,
             forma_pago_cliente CHAR(100) NOT NULL,
+            empresa_id INT NOT NULL,
             CONSTRAINT PRIMARY KEY ( identificacion_cliente ),
-            empresa_id INT,
             INDEX par_ind (empresa_id),
             FOREIGN KEY (empresa_id) REFERENCES empresas(nit_empresa) ON DELETE CASCADE
         )";
@@ -93,7 +93,7 @@
                     </div>
                     <div id="enterprise" class="card">
                         <div class="card-body">
-                            <form method="POST">
+                            <form action="empresas.php" method="POST">
                                 <div class="form-group">
                                     <label for="nameForm">Nombre</label>
                                     <input type="text" name="nombreEmp" class="form-control" id="formControlName" placeholder="nombre"
@@ -117,23 +117,12 @@
                                     <br>
                                     <input type="submit" value="Enviar" class="btn btn-block btn-success" />
                                 </div>
-                                <?php
-                                    $nombreEmpresa = $_POST['nombreEmp'];
-                                    $nitEmpresa = $_POST['nitEmp'];
-                                    $telefonoEmpresa = $_POST['telEmp'];
-                                    $direccionEmpresa = $_POST['dirEmp'];
-                                    $ubicacionEmpresa = $_POST['ubEmp'];
-
-                                    $enviar = "INSERT INTO empresas (nombre_empresa, nit_empresa, telefono_empresa, direccion_empresa, ubicacion_empresa) VALUES ('$nombreEmpresa', $nitEmpresa, $telefonoEmpresa, '$direccionEmpresa', '$ubicacionEmpresa')";
-
-                                    $conn->query($enviar);
-                                ?>
                             </form>
                         </div>
                     </div>
-                    <div id="customer" class="card">
+                    <div id="customer" class="card d-none">
                         <div class="card-body">
-                            <form method="POST">
+                            <form action="clientes.php" method="POST">
                                 <div class="form-group">
                                     <label>Nombre</label>
                                     <input type="text" name="nombreCli" class="form-control" id="formControlName" placeholder="Nombre" required>
@@ -165,7 +154,7 @@
                                     <input type="text" name="monedaCli" class="form-control" id="formControlMoneda" placeholder="Moneda" required>
                                     <br>
                                     <label>Forma de pago</label>
-                                    <select class="form-control" id="idiomaSelect" name="idioma">
+                                    <select class="form-control" id="idiomaSelect" name="pago">
                                         <option>Deposito</option>
                                         <option>Tarjeta de credito</option>
                                         <option>Tarjeta Debito</option>
@@ -174,14 +163,14 @@
                                     <label>Empresa</label>
                                     <select class="fomr-control" id="empresaSelect" name="empres">
                                     <?php
-                                        $sql = "SELECT nombre_empresa FROM empresas";
+                                        $sql = "SELECT nit_empresa FROM empresas";
                                         if (!$result = $conn->query($sql)) {
                                             echo "Error al consultar base de datos.";
                                             echo "Error: " . $conn->error . "\n"; 
                                         }
 
                                         while ($empresas = $result->fetch_assoc()) {
-                                            echo "<option>".$empresas['nombre_empresa']."</option>\n";
+                                            echo "<option>".$empresas['nit_empresa']."</option>\n";
                                         }
                                     ?>
                                     </select>
@@ -190,9 +179,6 @@
                                     <input type="submit" value="Enviar" class="btn btn-block btn-success" />
                                 </div>
                             </form>
-                            <?php
-
-                            ?>
                         </div>
                     </div>
                 </div>
